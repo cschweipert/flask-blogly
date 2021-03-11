@@ -4,15 +4,15 @@
 
 {% block content %}
 
-<img src="{{ user.img_url }}" alt="user profile picture">
+<img src="{{ user.img_url }}" alt="user profile picture" class="img">
 <h1>{{ user.first_name }} {{ user.last_name }}</h1>
 
-<button class="btn btn-primary btn-lg">
-    Edit
-</button>
+<form action="/users/{{ user.id }}/edit">
+    <button class="btn btn-primary btn-lg">Edit</button>
+</form>
 
-<button class="btn btn-primary btn-lg">
-    Delete
-</button>
+<form action="/users/{{ user.id }}/delete" method="POST">
+    <button class="btn btn-primary btn-lg">Delete</button>
+</form>
 
 {% endblock %}

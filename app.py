@@ -41,7 +41,7 @@ def add_user():
 
 @app.route("/users/new", methods=["POST"])
 def process_form():
-    """Add user adn redirect to users"""
+    """Add user and redirect to users"""
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
@@ -63,32 +63,39 @@ def show_user(user_id):
     return render_template("detail.html", user=user)
 
 
-@app.route("/users/[user-id]/edit")
-def edit_user():
+@app.route("/users/<int:user_id>/edit")
+def edit_user(user_id):
     """Edit single user"""
 
-    return render_template("edit_user.html")
+    user = User.query.get_or_404(user_id)
+    return render_template("edit_user.html", user=user)
 
-# ToDo
-@app.route("/users/[user-id]/edit", methods=["POST"])
-def process_edit_form():
+
+@app.route("/users/<int:user_id>/edit", methods=["POST"])
+def process_edit_form(user_id):
     """Edit user"""
 
-    first_name = request.form["first_name"]
-    last_name = request.form["last_name"]
-    img_url = request.form["img_url"]
+    user = User.query.get_or_404(user_id)
 
-    return render_template("users.html")
+    user.first_name = request.form["first_name"]
+    user.last_name = request.form["last_name"]
+    user.img_url = request.form["img_url"] or None
 
-# ToDo
-@app.route("/users/[user-id]/delete", methods=["POST"])
-def delete_user():
+    db.session.add(user)
+    db.session.commit()
+
+    return redirect("/users")
+
+
+@app.route("/users/<int:user_id>/delete", methods=["POST"])
+def delete_user(user_id):
     """Delete user"""
 
-    first_name = request.form["first_name"]
-    last_name = request.form["last_name"]
-    img_url = request.form["img_url"]
+    user = User.query.get_or_404(user_id)
 
-    return render_template("users.html")
+    db.session.delete(user)
+    db.session.commit()
+
+    return redirect("/users")
 
 
