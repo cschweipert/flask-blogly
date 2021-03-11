@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<img src="" alt="user profile">
-<h1>{% first_name %} {% last_name %}</h1>
+<img src="{{ user.img_url }}" alt="user profile picture">
+<h1>{{ user.first_name }} {{ user.last_name }}</h1>
 
 <button class="btn btn-primary btn-lg">
     Edit

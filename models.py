@@ -26,5 +26,6 @@ class User(db.Model):
     last_name = db.Column(db.String(50),
                           nullable=False,
                           unique=True)
-    image_url = db.Column(db.String(500),
-                          nullable=True)
+    img_url = db.Column(db.Text,
+                          nullable=True,
+                          default="https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg")

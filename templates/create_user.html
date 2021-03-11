@@ -4,28 +4,33 @@
 
 {% block content %}
 
-<form action="/" class="pb-4 my-form">
-    <div class="form-group row">
-        <label class="col-2 col-form-label">First Name</label>
-        <div class="col-3 my-input">
-            <input name="first-name" placeholder="Enter a first name" required aria-label="Test" class="form-control">
+<div class="container-fluid">
+    <h1>Create a user</h1>
+    <form action="/users/new" method="post" class="pb-4 my-form">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">First Name</label>
+            <div class="col-3 my-input">
+                <input name="first_name" placeholder="Enter a first name" required aria-label="Test"
+                    class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-2 col-form-label">Last Name</label>
-        <div class="col-3 my-input">
-            <input name="last_name" placeholder="Enter a last name" required aria-label="Test" class="form-control">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Last Name</label>
+            <div class="col-3 my-input">
+                <input name="last_name" placeholder="Enter a last name" required aria-label="Test" class="form-control">
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-2 col-form-label">Image URL</label>
-        <div class="col-3 my-input">
-            <input name="img_ulr" placeholder="Provide an image of this user" required aria-label="Test" class="form-control">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Image URL</label>
+            <div class="col-3 my-input">
+                <input name="img_url" placeholder="Provide an image of this user" aria-label="Test"
+                    class="form-control">
+            </div>
         </div>
-    </div>
-    <button class="btn btn-primary btn-lg">
-        Add
-    </button>
-</form>
+        <button class="btn btn-primary btn-lg">
+            Add
+        </button>
+    </form>
+</div>
 
 {% endblock %}

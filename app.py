@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, request, redirect
-from models import db, connect_db
+from models import db, connect_db, User
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -20,14 +20,16 @@ debug = DebugToolbarExtension(app)
 def redirect_to_listings():
     """Redirect to listings page"""
 
-    return render_template("listing.html")
+    users = User.query.all()
+    return render_template("users.html", users=users)
 
 
 @app.route("/users")
 def show_users():
     """Shows all users"""
 
-    return render_template("listing.html")
+    users = User.query.all()
+    return render_template("users.html", users=users)
 
 
 @app.route("/users/new")
@@ -39,20 +41,26 @@ def add_user():
 
 @app.route("/users/new", methods=["POST"])
 def process_form():
-    """Add user"""
+    """Add user adn redirect to users"""
 
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
-    img_url = request.form["img_url"]
+    img_url = request.form["img_url"] or None
 
-    return render_template("listing.html")
+    user = User(first_name=first_name, last_name=last_name, img_url=img_url)
+    db.session.add(user)
+    db.session.commit()
+
+    # after post request => redirect
+    return redirect("/users")
 
 
-@app.route("/users/[user-id]")
-def show_user():
-    """Show details about single user"""
+@app.route("/users/<int:user_id>")
+def show_user(user_id):
+    """Show details about a single user"""
 
-    return render_template("detail.html")
+    user = User.query.get_or_404(user_id)
+    return render_template("detail.html", user=user)
 
 
 @app.route("/users/[user-id]/edit")
@@ -70,7 +78,7 @@ def process_edit_form():
     last_name = request.form["last_name"]
     img_url = request.form["img_url"]
 
-    return render_template("listing.html")
+    return render_template("users.html")
 
 # ToDo
 @app.route("/users/[user-id]/delete", methods=["POST"])
@@ -81,6 +89,6 @@ def delete_user():
     last_name = request.form["last_name"]
     img_url = request.form["img_url"]
 
-    return render_template("listing.html")
+    return render_template("users.html")
 
 
